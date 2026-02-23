@@ -1,0 +1,117 @@
+:root {
+    --slack-aubergine: #4a154b;
+    --slack-purple: #611f69;
+    --slack-blue: #1264a3;
+    --slack-green: #007a5a;
+    --slack-red: #e01e5a;
+    --bg-light: #f8f8f8;
+    --border: #dddddd;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background-color: var(--slack-aubergine);
+    color: white;
+}
+
+.workspace-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.channels li { padding: 10px 20px; list-style: none; cursor: pointer; }
+.channels li.active { background-color: var(--slack-blue); }
+
+/* LAYOUT */
+.main-view {
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: var(--bg-light);
+}
+
+.content-container { padding: 20px 40px; }
+.separator { border: 0; border-top: 2px dashed #ccc; margin: 10px 40px; }
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* INPUTS & BUTTONS */
+.input-group { margin-bottom: 15px; }
+label { display: block; font-weight: bold; margin-bottom: 5px; }
+input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
+
+.primary-btn {
+    background-color: var(--slack-red);
+    color: white; border: none; padding: 12px; border-radius: 4px;
+    font-weight: bold; cursor: pointer; width: 100%;
+}
+
+/* MESSAGE BOX (INBOX ITEM) */
+.message-item {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    border-left: 5px solid var(--slack-red);
+}
+
+.reveal-section {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.see-mad-btn {
+    background-color: var(--slack-blue);
+    color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;
+}
+
+.identity-revealed {
+    color: var(--slack-purple);
+    font-weight: bold;
+    display: none; /* Hidden by default */
+}
+
+/* ... Keep existing styles ... */
+
+/* SUCCESS / APOLOGY BUTTON */
+.sorry-btn {
+    background-color: var(--slack-green);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.talk-btn {
+    background-color: white;
+    color: var(--slack-blue);
+    border: 1px solid var(--slack-blue);
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* ARCHIVED STATE */
+.message-item.resolved {
+    opacity: 0.6;
+    border-left: 5px solid #ccc;
+    background-color: #eee;
+}
+
+.resolution-text {
+    font-style: italic;
+    color: var(--slack-green);
+    font-weight: bold;
+}

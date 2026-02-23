@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caca Nerveux - Stop the Drama</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="workspace-header">
+            <h3>Caca Nerveux 💩</h3>
+        </div>
+        <nav class="channels">
+            <p class="nav-title">Drama Channels</p>
+            <ul>
+                <li class="active"># general-outrage</li>
+                <li># coffee-machine-war</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-view">
+        
+        <section class="content-container">
+            <div class="card">
+                <h3>💩 Report a "Caca Nerveux"</h3>
+                <div class="input-group">
+                    <label for="recipient">Who is overreacting?</label>
+                    <input type="text" id="recipient" placeholder="Colleague's name...">
+                </div>
+                <div class="input-group">
+                    <label for="message">Describe the scene</label>
+                    <textarea id="message" rows="3" placeholder="What happened?"></textarea>
+                </div>
+                <button class="primary-btn" onclick="sendMessage()">Send Anonymous Alert</button>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        <section class="content-container">
+            <div class="card inbox-card">
+                <h3>📥 Incoming Drama (Inbox)</h3>
+                <div id="empty-inbox-msg">
+                    <p>No drama reported yet. Peace is everywhere... for now.</p>
+                </div>
+                
+                <div id="messages-list"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
