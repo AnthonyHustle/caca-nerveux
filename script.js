@@ -8,18 +8,27 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
  */
 
 async function handleSignUp() {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
-    if (!email || !password) return alert("Please enter both email and password.");
+    // Le .trim() nettoie les espaces automatiques du clavier mobile
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value.trim();
+    
+    if (!email || !password) {
+        return alert("Please enter both email and password.");
+    }
 
+    // --- ICI C'EST LE CODE QUI MANQUAIT DANS TON DERNIER MESSAGE ---
     const { error } = await _supabase.auth.signUp({ email, password });
-    if (error) alert("Signup Error: " + error.message);
-    else alert("Signup successful! You can now log in.");
+    
+    if (error) {
+        alert("Signup Error: " + error.message);
+    } else {
+        alert("Signup successful! You can now log in.");
+    }
 }
 
 async function handleSignIn() {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value.trim();
     
     const { error } = await _supabase.auth.signInWithPassword({ email, password });
     if (error) alert("Login Error: " + error.message);
@@ -42,11 +51,7 @@ async function checkUser() {
         authContainer.style.display = 'none';
         appContent.style.display = 'flex';
         userDisplay.innerText = "Logged in as: " + user.email;
-        
-        // --- LA CORRECTION EST ICI ---
-        showSection('report'); // Affiche l'écran d'alerte par défaut après connexion
-        // ------------------------------
-        
+        showSection('report'); 
     } else {
         authContainer.style.display = 'flex';
         appContent.style.display = 'none';
@@ -89,7 +94,7 @@ async function sendMessage() {
         recipientInput.value = "";
         messageInput.value = "";
         alert("Caca Nerveux envoyé avec succès !");
-        showSection('inbox'); // Redirige vers l'inbox pour voir le résultat
+        showSection('inbox'); 
     }
 }
 
