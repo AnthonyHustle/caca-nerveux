@@ -1,66 +1,132 @@
+// 1. INITIALIZE SUPABASE CONNECTION
+// We use the keys you found in Project Settings > API
+const SUPABASE_URL = 'https://vtyowngyqwqfuxjflyzf.supabase.co'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0eW93bmd5cXdxZnV4amZseXpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTIxNTYsImV4cCI6MjA4NzQyODE1Nn0.2iTY_sSLO4N6GEW6hWVXJ9KqEzRRjAIPr2gMqKCiFmQ';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 /**
- * Sends the drama report to the inbox
+ * STARTUP: This runs as soon as the page loads
  */
-function sendMessage() {
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Caca Nerveux App is online!");
+    fetchMessages(); // We immediately download existing drama
+});
+
+/**
+ * SEND: Function to save a "Caca Nerveux" to the cloud
+ */
+async function sendMessage() {
     const recipientInput = document.getElementById('recipient');
     const messageInput = document.getElementById('message');
-    const messagesList = document.getElementById('messages-list');
-    const emptyMsg = document.getElementById('empty-inbox-msg');
+    
+    const recipient = recipientInput.value.trim();
+    const message = messageInput.value.trim();
 
-    const name = recipientInput.value.trim();
-    const text = messageInput.value.trim();
-
-    if (name === "" || text === "") {
-        alert("Please fill in both fields!");
+    if (recipient === "" || message === "") {
+        alert("Wait! Both fields are required.");
         return;
     }
 
-    // Hide placeholder
-    emptyMsg.style.display = "none";
+    // Sending data to Supabase table 'drama_reports'
+    const { data, error } = await _supabase
+        .from('drama_reports')
+        .insert([
+            { 
+                recipient: recipient, 
+                message: message, 
+                sender_name: "Anonymous Colleague", // This is our secret
+                is_resolved: false 
+            }
+        ]);
 
-    // Create message with identity trapped in the function call
-    const messageHtml = `
-        <div class="message-item">
-            <p><strong>Anonymous Drama Alert:</strong></p>
-            <p>"${text}"</p>
-            <div class="reveal-section">
-                <button class="see-mad-btn" onclick="revealIdentity(this, '${name}')">See who's mad</button>
-                
-                <div class="post-reveal-actions" style="display:none;">
-                    <p>Sent by: <strong>${name}</strong> 💩</p>
-                    <button class="sorry-btn" onclick="resolveDrama(this, 'apology')">Say Sorry & Close</button>
-                    <button class="talk-btn" onclick="resolveDrama(this, 'talk')">Let's Talk</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    messagesList.insertAdjacentHTML('afterbegin', messageHtml);
-    recipientInput.value = "";
-    messageInput.value = "";
+    if (error) {
+        console.error("Error sending to Supabase:", error.message);
+        alert("Failed to send: " + error.message);
+    } else {
+        // Clear inputs and refresh the list
+        recipientInput.value = "";
+        messageInput.value = "";
+        fetchMessages(); 
+    }
 }
 
 /**
- * Reveals the hidden identity section
+ * FETCH: Downloads all drama reports from the database
  */
-function revealIdentity(button, name) {
+async function fetchMessages() {
+    const messagesList = document.getElementById('messages-list');
+    const emptyMsg = document.getElementById('empty-inbox-msg');
+
+    // Get all rows from 'drama_reports', newest first
+    const { data: reports, error } = await _supabase
+        .from('drama_reports')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error("Error fetching data:", error.message);
+        return;
+    }
+
+    // If there are reports, hide the empty message
+    if (reports.length > 0) {
+        emptyMsg.style.display = "none";
+        messagesList.innerHTML = ""; // Clear current list before redrawing
+
+        // Draw each report on the screen
+        reports.forEach(report => {
+            const resolvedClass = report.is_resolved ? 'resolved' : '';
+            
+            const messageHtml = `
+                <div class="message-item ${resolvedClass}">
+                    <p><strong>To: ${report.recipient}</strong></p>
+                    <p>"${report.message}"</p>
+                    <div class="reveal-section">
+                        ${report.is_resolved 
+                            ? `<p class="resolution-text">✅ Drama Resolved</p>` 
+                            : `<button class="see-mad-btn" onclick="revealIdentity(this, '${report.sender_name}', '${report.id}')">See who's mad</button>`
+                        }
+                        <div class="post-reveal-actions" style="display:none;">
+                            <p>Sent by: <strong>${report.sender_name}</strong> 💩</p>
+                            <button class="sorry-btn" onclick="resolveDrama(this, '${report.id}', 'apology')">Say Sorry & Close</button>
+                            <button class="talk-btn" onclick="resolveDrama(this, '${report.id}', 'talk')">Let's Talk</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            messagesList.insertAdjacentHTML('beforeend', messageHtml);
+        });
+    }
+}
+
+/**
+ * REVEAL: Shows the identity section
+ */
+function revealIdentity(button) {
     const actionsDiv = button.nextElementSibling;
     button.style.display = "none";
     actionsDiv.style.display = "block";
 }
 
 /**
- * Closes the conflict
+ * RESOLVE: Updates the database when someone says sorry
  */
-function resolveDrama(button, type) {
+async function resolveDrama(button, reportId, type) {
     const messageItem = button.closest('.message-item');
-    const actionsDiv = button.parentElement;
 
     if (type === 'apology') {
-        actionsDiv.innerHTML = `<p class="resolution-text">✅ Apology sent. Case closed.</p>`;
-        messageItem.classList.add('resolved');
+        // UPDATE the row in Supabase
+        const { error } = await _supabase
+            .from('drama_reports')
+            .update({ is_resolved: true })
+            .eq('id', reportId);
+
+        if (error) {
+            console.error("Update error:", error.message);
+        } else {
+            fetchMessages(); // Refresh UI to show it's resolved
+        }
     } else {
-        actionsDiv.innerHTML = `<p class="resolution-text">💬 Meeting request sent to the reporter.</p>`;
-        messageItem.style.borderLeftColor = "var(--slack-blue)";
+        alert("Talk request simulated!");
     }
 }
