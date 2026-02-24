@@ -43,19 +43,22 @@
         <section class="content-container">
             
             <div id="section-report" class="app-section">
-                <div class="card">
-                    <h3>💩 Report a "Caca Nerveux"</h3>
-                    <div class="input-group">
-                        <label>Qui surréagit ?</label>
-                        <input type="text" id="recipient" placeholder="Nom du collègue...">
-                    </div>
-                    <div class="input-group">
-                        <label>Description</label>
-                        <textarea id="message" rows="3" placeholder="Que se passe-t-il ?"></textarea>
-                    </div>
-                    <button onclick="sendMessage()">Envoyer l'alerte</button>
-                </div>
-            </div>
+    <div class="card">
+        <h3>Mon caca nerveux 💩</h3>
+        
+        <div class="input-group">
+            <label for="recipient">La personne concernée</label>
+            <input type="text" id="recipient" placeholder="Nom...">
+        </div>
+        
+        <div class="input-group">
+            <label for="message">Ton petit caca</label>
+            <textarea id="message" rows="4" placeholder="Raconte ton drama..."></textarea>
+        </div>
+        
+        <button onclick="sendMessage()">Envoyer 💩</button>
+    </div>
+</div>
 
             <div id="section-inbox" class="app-section" style="display:none;">
                 <div class="card">
