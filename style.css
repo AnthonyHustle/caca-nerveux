@@ -1,14 +1,14 @@
-/* --- VARIABLES INSPIRÉES DE BONDMANAGER (DARK & CHIC) --- */
+/* --- VARIABLES INSPIRÉES DE BONDMANAGER (LIGHT & CLEAN) --- */
 :root {
-    --bg-color: #0f172a;         /* Bleu nuit très profond / Noir */
-    --sidebar-bg: #1e293b;      /* Anthracite */
-    --accent-color: #fbbf24;    /* Doré / Ambre pour l'élégance */
-    --accent-hover: #f59e0b;
-    --text-primary: #f8fafc;    /* Blanc cassé */
-    --text-secondary: #94a3b8;  /* Gris bleuté */
-    --border-color: #334155;    /* Bordures sombres discrètes */
-    --card-bg: #1e293b;         /* Fond des messages anthracite */
-    --input-bg: #0f172a;
+    --bg-color: #f8fafc;         /* Gris très clair/blanc cassé */
+    --sidebar-bg: #ffffff;      /* Blanc pur */
+    --accent-color: #1e293b;    /* Anthracite profond (très chic) */
+    --accent-hover: #334155;
+    --text-primary: #0f172a;    /* Presque noir */
+    --text-secondary: #64748b;  /* Gris de soutien */
+    --border-color: #e2e8f0;    /* Bordures très fines */
+    --card-bg: #ffffff;         /* Cartes blanches */
+    --input-bg: #ffffff;
 }
 
 /* --- RESET & BASE --- */
@@ -53,39 +53,41 @@ body {
 
 /* --- UI ELEMENTS --- */
 h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
-    letter-spacing: -0.025em;
+    letter-spacing: 0.1em;
     margin-bottom: 30px;
-    color: var(--accent-color);
+    color: var(--text-primary);
     text-transform: uppercase;
+    border-bottom: 2px solid var(--text-primary);
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 h2 {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 25px;
-    color: var(--text-primary);
 }
 
 .card {
     background: var(--card-bg);
     padding: 30px;
-    border-radius: 16px;
+    border-radius: 8px; /* Angles plus vifs pour le côté pro */
     border: 1px solid var(--border-color);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     margin-bottom: 40px;
 }
 
-/* --- FORMULAIRE STYLE PREMIUM --- */
+/* --- FORMULAIRE STYLE MINIMALISTE --- */
 .input-group {
     margin-bottom: 20px;
 }
 
 label {
     display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
     margin-bottom: 8px;
     color: var(--text-secondary);
     text-transform: uppercase;
@@ -94,72 +96,69 @@ label {
 
 input, textarea {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 4px;
     background: var(--input-bg);
-    color: white;
-    font-size: 1rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
     transition: all 0.2s ease;
 }
 
 input:focus, textarea:focus {
     outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
+    border-color: var(--text-primary);
 }
 
 button {
     width: 100%;
     padding: 14px;
     background-color: var(--accent-color);
-    color: #000; /* Texte noir sur bouton doré pour le contraste */
+    color: #ffffff;
     border: none;
-    border-radius: 10px;
-    font-weight: 700;
+    border-radius: 4px;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
     cursor: pointer;
-    transition: transform 0.1s, background 0.2s;
+    transition: opacity 0.2s;
 }
 
 button:hover {
-    background-color: var(--accent-hover);
-    transform: translateY(-1px);
+    opacity: 0.9;
 }
 
 /* --- FEED / MESSAGES --- */
 .message-item {
     background: var(--card-bg);
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 4px;
     border: 1px solid var(--border-color);
-    margin-bottom: 20px;
-    transition: border-color 0.3s;
-}
-
-.message-item:hover {
-    border-color: var(--text-secondary);
+    margin-bottom: 15px;
 }
 
 .message-item strong {
-    color: var(--accent-color);
-    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .message-item p {
-    margin-top: 8px;
-    line-height: 1.5;
-    color: var(--text-primary);
+    margin-top: 10px;
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
 .see-mad-btn {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     margin-top: 15px;
     width: auto;
-    padding: 6px 12px;
+    padding: 5px 10px;
+    text-transform: uppercase;
 }
 
 /* --- RESPONSIVE --- */
@@ -172,6 +171,8 @@ button:hover {
         height: auto;
         position: relative;
         padding: 30px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
     }
     .main-view {
         margin-left: 0;
