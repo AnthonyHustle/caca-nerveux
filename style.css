@@ -1,7 +1,7 @@
-/* --- RETOUR AU STYLE EXACT DE TA PREVIEW VERCEL --- */
+/* --- VARIABLES --- */
 :root {
-    --primary: #6d28d9;       /* Le violet de base */
-    --primary-light: #ede9fe; /* Le fond clair lavande */
+    --primary: #6d28d9;
+    --primary-light: #ede9fe;
     --text-main: #1f2937;
     --white: #ffffff;
 }
@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- SIDEBAR --- */
+/* --- SIDEBAR (PC uniquement) --- */
 .sidebar {
     width: 320px;
     background: var(--white);
@@ -31,7 +31,7 @@ body {
 
 .main-view {
     flex: 1;
-    margin-left: 320px; /* Aligné sur la sidebar */
+    margin-left: 320px;
     padding: 2rem;
     display: flex;
     justify-content: center;
@@ -101,34 +101,70 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.message-item strong {
-    color: var(--primary);
+.message-item strong { color: var(--primary); }
+
+/* --- NAVIGATION MOBILE (Barre du bas) --- */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    border-top: 1px solid #ddd6fe;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
 
-.see-mad-btn {
-    background: #f3f4f6;
-    color: #4b5563;
-    font-size: 0.75rem;
-    margin-top: 0.75rem;
+/* IMPORTANT : On cache la nav mobile si l'app-content est caché (écran de log) */
+#app-content[style*="display: none"] + .mobile-nav, 
+#app-content[style*="display:none"] + .mobile-nav {
+    display: none !important;
+}
+
+.mobile-nav button {
+    background: none;
+    color: #6b7280;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
     width: auto;
-    padding: 0.4rem 0.8rem;
+    padding: 5px;
 }
 
-/* --- MOBILE RESPONSIVE (INDISPENSABLE) --- */
+.mobile-nav button:hover { color: var(--primary); }
+
+/* --- ANIMATIONS --- */
+.app-section {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MEDIA QUERIES (FUSIONNÉES) --- */
 @media (max-width: 768px) {
     body {
         flex-direction: column;
     }
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        padding: 1.5rem;
-        border-right: none;
-        border-bottom: 1px solid #ddd6fe;
+        display: none; /* Cache la barre latérale sur mobile */
     }
     .main-view {
         margin-left: 0;
-        padding: 1.5rem 1rem;
+        padding: 1.5rem 1rem 80px 1rem; /* 80px en bas pour ne pas cacher le contenu derrière la nav */
+    }
+    .mobile-nav {
+        display: flex; /* Affiche la nav seulement sur mobile */
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-nav {
+        display: none; /* Cache la nav du bas sur ordinateur */
     }
 }

@@ -4,10 +4,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /**
- * AUTH LOGIC: Manage Login, Signup, and Logout
+ * AUTH LOGIC
  */
 
-// Handle User Signup
 async function handleSignUp() {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-password').value;
@@ -18,7 +17,6 @@ async function handleSignUp() {
     else alert("Signup successful! You can now log in.");
 }
 
-// Handle User Signin
 async function handleSignIn() {
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-password').value;
@@ -28,13 +26,11 @@ async function handleSignIn() {
     else checkUser(); 
 }
 
-// Handle Logout
 async function handleSignOut() {
     await _supabase.auth.signOut();
     location.reload(); 
 }
 
-// Check if a user is logged in on page load
 async function checkUser() {
     const { data: { user } } = await _supabase.auth.getUser();
     
@@ -46,7 +42,11 @@ async function checkUser() {
         authContainer.style.display = 'none';
         appContent.style.display = 'flex';
         userDisplay.innerText = "Logged in as: " + user.email;
-        fetchMessages(); 
+        
+        // --- LA CORRECTION EST ICI ---
+        showSection('report'); // Affiche l'écran d'alerte par défaut après connexion
+        // ------------------------------
+        
     } else {
         authContainer.style.display = 'flex';
         appContent.style.display = 'none';
@@ -56,7 +56,7 @@ async function checkUser() {
 document.addEventListener('DOMContentLoaded', checkUser);
 
 /**
- * MESSAGE LOGIC: Send, Fetch, and Resolve Drama
+ * MESSAGE LOGIC
  */
 
 async function sendMessage() {
@@ -78,7 +78,7 @@ async function sendMessage() {
             { 
                 recipient: recipient, 
                 message: message, 
-                sender_name: user.email, // Now linked to the real user!
+                sender_name: user.email, 
                 is_resolved: false 
             }
         ]);
@@ -88,7 +88,8 @@ async function sendMessage() {
     } else {
         recipientInput.value = "";
         messageInput.value = "";
-        fetchMessages(); 
+        alert("Caca Nerveux envoyé avec succès !");
+        showSection('inbox'); // Redirige vers l'inbox pour voir le résultat
     }
 }
 
@@ -106,7 +107,7 @@ async function fetchMessages() {
         return;
     }
 
-    if (reports.length > 0) {
+    if (reports && reports.length > 0) {
         emptyMsg.style.display = "none";
         messagesList.innerHTML = ""; 
 
@@ -158,5 +159,20 @@ async function resolveDrama(button, reportId, type) {
         }
     } else {
         alert("Talk request simulated!");
+    }
+}
+
+function showSection(sectionId) {
+    document.querySelectorAll('.app-section').forEach(section => {
+        section.style.display = 'none';
+    });
+
+    const targetSection = document.getElementById('section-' + sectionId);
+    if (targetSection) {
+        targetSection.style.display = 'block';
+    }
+
+    if (sectionId === 'inbox') {
+        fetchMessages();
     }
 }

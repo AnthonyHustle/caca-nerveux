@@ -32,42 +32,55 @@
     </div>
 
     <div id="app-content" style="display: none;">
-        
-        <aside class="sidebar">
-            <div class="workspace-header">
-                <h3>Caca Nerveux 💩</h3>
-            </div>
-            <p style="padding: 10px 25px; font-size: 0.8rem; color: var(--text-secondary);" id="user-display"></p>
-            <button onclick="handleSignOut()" style="margin: 10px 25px; width: auto; padding: 5px 10px; font-size: 0.7rem; background: #ef4444; color: white; border-radius: 4px; border: none; cursor: pointer;">Déconnexion</button>
-        </aside>
+    
+    <nav class="mobile-nav">
+        <button onclick="showSection('report')">🏠 Alerte</button>
+        <button onclick="showSection('inbox')">📥 Inbox</button>
+        <button onclick="showSection('profile')">👤 Profil</button>
+    </nav>
 
-        <main class="main-view">
-            <section class="content-container">
+    <main class="main-view">
+        <section class="content-container">
+            
+            <div id="section-report" class="app-section">
                 <div class="card">
                     <h3>💩 Report a "Caca Nerveux"</h3>
                     <div class="input-group">
-                        <label for="recipient">Who is overreacting?</label>
-                        <input type="text" id="recipient" placeholder="Colleague's name...">
+                        <label>Qui surréagit ?</label>
+                        <input type="text" id="recipient" placeholder="Nom du collègue...">
                     </div>
                     <div class="input-group">
-                        <label for="message">Describe the scene</label>
-                        <textarea id="message" rows="3" placeholder="What happened?"></textarea>
+                        <label>Description</label>
+                        <textarea id="message" rows="3" placeholder="Que se passe-t-il ?"></textarea>
                     </div>
-                    <button onclick="sendMessage()">Send Anonymous Alert</button>
+                    <button onclick="sendMessage()">Envoyer l'alerte</button>
                 </div>
+            </div>
 
-                <hr class="separator" style="margin: 20px 0; opacity: 0.1;">
-
+            <div id="section-inbox" class="app-section" style="display:none;">
                 <div class="card">
-                    <h3>📥 Incoming Drama (Inbox)</h3>
+                    <h3>📥 Tes Cacas Reçus</h3>
                     <div id="empty-inbox-msg">
-                        <p>No drama reported yet. Peace is everywhere... for now.</p>
+                        <p>Zen... aucun drama reçu pour l'instant.</p>
                     </div>
                     <div id="messages-list"></div>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+
+            <div id="section-profile" class="app-section" style="display:none;">
+                <div class="card">
+                    <h3>👤 Ton Profil</h3>
+                    <p id="user-display" style="margin-bottom: 20px; font-weight: bold;"></p>
+                    <hr style="opacity: 0.1; margin-bottom: 20px;">
+                    <h4>Paramètres</h4>
+                    <p style="font-size: 0.8rem; color: gray; margin-bottom: 20px;">Version App: 1.0.0 (Beta)</p>
+                    <button onclick="handleSignOut()" style="background: #ef4444;">Se déconnecter</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
