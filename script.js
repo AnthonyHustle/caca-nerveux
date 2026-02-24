@@ -102,7 +102,7 @@ async function fetchMessages() {
 /**
  * REVEAL: Shows the identity section
  */
-function revealIdentity(button) {
+function revealIdentity(button, senderName, reportId) {
     const actionsDiv = button.nextElementSibling;
     button.style.display = "none";
     actionsDiv.style.display = "block";
