@@ -6,50 +6,71 @@
     <title>Caca Nerveux - Stop the Drama</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <aside class="sidebar">
-        <div class="workspace-header">
-            <h3>Caca Nerveux 💩</h3>
-        </div>
-            </ul>
-        </nav>
-    </aside>
-
-    <main class="main-view">
-        
-        <section class="content-container">
-            <div class="card">
-                <h3>💩 Report a "Caca Nerveux"</h3>
+    <div id="auth-container" class="main-view">
+        <div class="content-container">
+            <div class="card" style="max-width: 400px; margin: auto;">
+                <h1>Connexion 💩</h1>
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">Inscris-toi ou connecte-toi pour signaler un drama.</p>
+                
                 <div class="input-group">
-                    <label for="recipient">Who is overreacting?</label>
-                    <input type="text" id="recipient" placeholder="Colleague's name...">
-                </div>
-                <div class="input-group">
-                    <label for="message">Describe the scene</label>
-                    <textarea id="message" rows="3" placeholder="What happened?"></textarea>
-                </div>
-                <button class="primary-btn" onclick="sendMessage()">Send Anonymous Alert</button>
-            </div>
-        </section>
-
-        <hr class="separator">
-
-        <section class="content-container">
-            <div class="card inbox-card">
-                <h3>📥 Incoming Drama (Inbox)</h3>
-                <div id="empty-inbox-msg">
-                    <p>No drama reported yet. Peace is everywhere... for now.</p>
+                    <label>Email Pro</label>
+                    <input type="email" id="auth-email" placeholder="email@entreprise.com">
                 </div>
                 
-                <div id="messages-list"></div>
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="auth-password" placeholder="••••••••">
+                </div>
+                
+                <button onclick="handleSignIn()" style="margin-bottom: 10px;">Se connecter</button>
+                <button onclick="handleSignUp()" style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color);">S'inscrire</button>
             </div>
-        </section>
+        </div>
+    </div>
 
-    </main>
+    <div id="app-content" style="display: none;">
+        
+        <aside class="sidebar">
+            <div class="workspace-header">
+                <h3>Caca Nerveux 💩</h3>
+            </div>
+            <p style="padding: 10px 25px; font-size: 0.8rem; color: var(--text-secondary);" id="user-display"></p>
+            <button onclick="handleSignOut()" style="margin: 10px 25px; width: auto; padding: 5px 10px; font-size: 0.7rem; background: #ef4444; color: white; border-radius: 4px; border: none; cursor: pointer;">Déconnexion</button>
+        </aside>
+
+        <main class="main-view">
+            <section class="content-container">
+                <div class="card">
+                    <h3>💩 Report a "Caca Nerveux"</h3>
+                    <div class="input-group">
+                        <label for="recipient">Who is overreacting?</label>
+                        <input type="text" id="recipient" placeholder="Colleague's name...">
+                    </div>
+                    <div class="input-group">
+                        <label for="message">Describe the scene</label>
+                        <textarea id="message" rows="3" placeholder="What happened?"></textarea>
+                    </div>
+                    <button onclick="sendMessage()">Send Anonymous Alert</button>
+                </div>
+
+                <hr class="separator" style="margin: 20px 0; opacity: 0.1;">
+
+                <div class="card">
+                    <h3>📥 Incoming Drama (Inbox)</h3>
+                    <div id="empty-inbox-msg">
+                        <p>No drama reported yet. Peace is everywhere... for now.</p>
+                    </div>
+                    <div id="messages-list"></div>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="script.js"></script>
 </body>
+
 </html>
